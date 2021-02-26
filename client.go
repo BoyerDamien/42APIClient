@@ -19,6 +19,7 @@ type AuthToken struct {
 type API interface {
 	Auth() error
 	GetUser(login string) (User, error)
+	Token() AuthToken
 }
 
 // APIClient implements 42 API interface
@@ -26,7 +27,7 @@ type APIClient struct {
 	Url    string
 	Uid    string
 	Secret string
-	Token  AuthToken
+	token  AuthToken
 }
 
 // Auth method implements 42 API oAuth authentication
@@ -40,8 +41,8 @@ func (s *APIClient) Auth() error {
 	if err != nil {
 		return err
 	}
-	json.Unmarshal(body, &s.Token)
-	s.Token.LastUpdate = time.Now()
+	json.Unmarshal(body, &s.token)
+	s.token.LastUpdate = time.Now()
 	return nil
 }
 
@@ -53,7 +54,7 @@ func (s *APIClient) GetUser(login string) (User, error) {
 	if err != nil {
 		return User{}, err
 	}
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", s.Token.AccessToken))
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", s.token.AccessToken))
 	resp, err := client.Do(req)
 	if err != nil {
 		return User{}, err
@@ -68,4 +69,9 @@ func (s *APIClient) GetUser(login string) (User, error) {
 	var user User
 	json.Unmarshal(body, &user)
 	return user, nil
+}
+
+// Token returns 42 api auth token
+func (s *APIClient) Token() AuthToken {
+	return s.token
 }
