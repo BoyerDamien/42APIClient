@@ -19,7 +19,6 @@ type AuthToken struct {
 type API interface {
 	Auth() error
 	GetUser(login string) (User, error)
-	Token() AuthToken
 }
 
 // APIClient implements 42 API interface
