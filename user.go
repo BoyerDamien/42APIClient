@@ -46,7 +46,7 @@ type User struct {
 			Slug      string    `json:"slug"`
 		} `json:"cursus"`
 	} `json:"cursus_users"`
-	ProjectsUsers  []interface{} `json:"projects_users"`
+	ProjectsUsers  []map[string]interface{} `json:"projects_users"`
 	LanguagesUsers []struct {
 		ID         int       `json:"id"`
 		LanguageID int       `json:"language_id"`
