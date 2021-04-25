@@ -101,7 +101,7 @@ type User struct {
 	} `json:"campus_users"`
 }
 
-// GetUser fetch user data form 42 api based on login
+// GetUser fetch user data from 42 api based on login
 func (s *APIClient) GetUser(login string) (User, error) {
 	endpoint := fmt.Sprintf("%s/v2/users/%s", s.Url, login)
 	client := &http.Client{}
