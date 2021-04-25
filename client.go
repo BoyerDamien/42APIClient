@@ -40,7 +40,7 @@ func (s *APIClient) Auth() error {
 	if err != nil {
 		return err
 	}
-	json.Unmarshal(body, &s.token)
+	_ = json.Unmarshal(body, &s.token)
 	s.token.LastUpdate = time.Now()
 	return nil
 }

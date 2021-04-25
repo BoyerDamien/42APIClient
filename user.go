@@ -122,6 +122,6 @@ func (s *APIClient) GetUser(login string) (User, error) {
 		return User{}, err
 	}
 	var user User
-	json.Unmarshal(body, &user)
+	_ = json.Unmarshal(body, &user)
 	return user, nil
 }
