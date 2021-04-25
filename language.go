@@ -14,7 +14,7 @@ type Language struct {
 
 // GetLanguage fetch language data from 42 api from the language id
 func (s *APIClient) GetLanguage(login string) (Language, error) {
-	endpoint := fmt.Sprintf("%s/v2/users/%s", s.Url, login)
+	endpoint := fmt.Sprintf("%s/v2/languages/%s", s.Url, login)
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", endpoint, nil)
 	if err != nil {
