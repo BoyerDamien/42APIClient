@@ -1,3 +1,3 @@
-module github.com/BoyerDamien/42APIClient
+module github.com/Millefeuille42/42APIClient
 
 go 1.15

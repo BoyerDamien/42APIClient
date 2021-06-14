@@ -1,6 +1,9 @@
 package apiclient
 
 import (
+	"encoding/json"
+	"fmt"
+	"net/http"
 	"time"
 )
 
@@ -96,4 +99,29 @@ type User struct {
 		CampusID  int  `json:"campus_id"`
 		IsPrimary bool `json:"is_primary"`
 	} `json:"campus_users"`
+}
+
+// GetUser fetch user data from 42 api based on login
+func (s *APIClient) GetUser(login string) (User, error) {
+	endpoint := fmt.Sprintf("%s/v2/users/%s", s.Url, login)
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", endpoint, nil)
+	if err != nil {
+		return User{}, err
+	}
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", s.token.AccessToken))
+	resp, err := client.Do(req)
+	if err != nil {
+		return User{}, err
+	}
+	if resp.StatusCode != 200 {
+		return User{}, fmt.Errorf(resp.Status)
+	}
+	body, err := ReadHTTPResponse(resp)
+	if err != nil {
+		return User{}, err
+	}
+	var user User
+	_ = json.Unmarshal(body, &user)
+	return user, nil
 }
